@@ -1,10 +1,10 @@
-
+using API.Errors;
 using Infastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class BuggyController : BaseApiController
     {
         private readonly StoreContext _context;
@@ -18,10 +18,9 @@ namespace API.Controllers
         public IActionResult GetNotFoundRequest()
         {
             var thing = _context.Products.Find(50);
-            if (thing == null) return NotFound();
+            if (thing == null) return NotFound(new ApiResponse(404));
             return Ok();
         }
-
 
         [HttpGet("servererror")]
         public IActionResult GetServerError()
@@ -34,14 +33,12 @@ namespace API.Controllers
         [HttpGet("badrequest")]
         public IActionResult GetBadRequest()
         {
-
-            return BadRequest();
+            return BadRequest(new ApiResponse(400));
         }
 
         [HttpGet("badrequest/{id}")]
-        public IActionResult GetNotFoundRequest(int id)
+        public IActionResult GetBadRequestById(int id)
         {
-
             return Ok();
         }
     }
