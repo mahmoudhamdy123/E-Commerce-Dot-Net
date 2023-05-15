@@ -20,6 +20,10 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 //Add Auto Mapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddCors(opt =>
+opt.AddPolicy("CoresPolicy", policy =>
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200")));
+
 
 var app = builder.Build();
 
@@ -36,6 +40,8 @@ app.UseHttpsRedirection();
 
 
 app.UseStaticFiles();
+
+app.UseCors("CoresPolicy");
 
 app.UseAuthorization();
 
