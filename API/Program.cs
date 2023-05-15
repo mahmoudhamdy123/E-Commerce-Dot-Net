@@ -2,6 +2,8 @@
 using Core.Interfaces;
 using Infastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +17,16 @@ builder.Services.AddDbContext<Infastructure.Data.StoreContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefualtConnection"));
 });
+
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
+{
+    var configurationOptions = ConfigurationOptions.Parse(
+        builder.Configuration.GetConnectionString("Redis")
+    );
+    return ConnectionMultiplexer.Connect(configurationOptions);
+});
+
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
