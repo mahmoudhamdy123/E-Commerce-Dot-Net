@@ -1,5 +1,6 @@
 ﻿using API.Middleware;
 using Core.Interfaces;
+using Infastructure;
 using Infastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -29,6 +30,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 //Add Auto Mapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
