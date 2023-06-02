@@ -36,7 +36,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors(opt =>
 opt.AddPolicy("CoresPolicy", policy =>
-        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200")));
+        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
 
 var app = builder.Build();
